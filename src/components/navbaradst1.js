@@ -1,14 +1,22 @@
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Navbaradst1 = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  // console.log("navvv  ",location.state.role)
+  // if(location.state.id=="")
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-primary">
       <div className="container">
-        <Link className="navbar-brand" to="/">
-          ADST 1
-        </Link>
+        <button
+          className="navbar-brand btn btn-link"
+          onClick={() => navigate('/ADST1', { state: { id: location.state.id } })}
+        >
+          {location.state.id}
+        </button>
         <button
           className="navbar-toggler"
           type="button"
@@ -22,21 +30,15 @@ const Navbaradst1 = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
-          
             <li className="nav-item">
-              <Link className="nav-link" to="/ADST2REQ">
-              Requests from adstreq2
-              </Link>
+              <button className="nav-link btn btn-link" onClick={() => navigate('/ADST1REQ',{ state: { id: location.state.id } })}>
+                Requests from other units
+              </button>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/ADST3REQ">
-              Requests from adstreq3
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/accepted">
+              <button className="nav-link btn btn-link" onClick={() => navigate('/ADST1ACC',{ state: { id: location.state.id } })}>
                 REQUESTS PLACED
-              </Link>
+              </button>
             </li>
           </ul>
         </div>
@@ -46,3 +48,4 @@ const Navbaradst1 = () => {
 };
 
 export default Navbaradst1;
+

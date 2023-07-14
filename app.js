@@ -1,5 +1,6 @@
 const express = require("express")
-const collection = require("./mongo")
+const {collection, collection1} = require("./mongo")
+// const collection1 =require("./mongo")
 const cors = require("cors")
 const app = express()
 app.use(express.json())
@@ -42,6 +43,22 @@ app.post("/",async(req,res)=>{
     }
 
 })
+app.post("/TransactionPost",async (req,res)=>{
+    // const{txnhash,requestId,mailId,purpose}=req.body
+
+    // const data={
+    //     email:email,
+    //     password:password,
+    //     role:role
+    // }
+    let E=req.body;
+    console.log("EEEEE ",collection1);
+    console.log("tttt ",E);
+    let send=await collection1.insertMany(E);
+    res.json("okok");
+    
+    
+ })
 
 
 
@@ -76,3 +93,4 @@ app.post("/signup",async(req,res)=>{
 app.listen(8000,()=>{
     console.log("port connected");
 })
+

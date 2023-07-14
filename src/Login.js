@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { useNavigate, Link } from "react-router-dom"
 // import { useState } from "react";
-
+import Navbar from "./components/navbar";
+import Adst1 from './ADST1';
 
 
 function Login() {
@@ -16,21 +17,21 @@ function Login() {
         e.preventDefault();
 
         try{
-
+            
             await axios.post("http://localhost:8000/",{
                 email,password
             })
             .then(res=>{
                 {console.log(res.data.role)}
                 if(res.data.status=="exist"){
-                    if(res.data.role=="1sa"){
-                        history("/home",{state:{id:email}})
+                    if(res.data.role=="ASC"){
+                        history("/ASC",{state:{id:email , role:res.data.role}})
                     }
                     if(res.data.role=="ADST"){
-                        history("/ADST1",{state:{id:email}})
+                        history("/ADST1",{state:{id:email, role:res.data.role}})
                     }
                     if(res.data.role=="DDST"){
-                        history("/home",{state:{id:email}})
+                        history("/DDST1",{state:{id:email, role:res.data.role}})
                     }
 
                     
@@ -62,6 +63,7 @@ function Login() {
 
     return (
         <div className="login">
+            <Navbar/>
 
             <h1>Login</h1>
 

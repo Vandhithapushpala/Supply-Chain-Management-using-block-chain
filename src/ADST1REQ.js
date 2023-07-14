@@ -1,159 +1,278 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './components/navbar';
 import { ABI, Address } from './aa';
-const Adstreq1 = () => {
-    const [account, setAccount] = useState('');
-    const [contract, setContract] = useState(null);
-    useEffect(() => {
-        connectMetamask();
-        connectContract();
-        ad();
-    }, []);
+import Navbar from './components/navbar';
+import Navbaradst1 from './components/navbaradst1';
+import { useLocation, useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+
+const AdstRequests = () => {
+  const [account, setAccount] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [data1, setData1] = useState([]);
+  const [selectedElements, setSelectedElements] = useState([]);
+  const [nz, setNz] = useState(0);
+  const location = useLocation();
+  const [dataFetched, setDataFetched] = useState(false);
+  console.log("adst1req ", location.state.id);
+  useEffect(() => {
     const connectMetamask = async () => {
-        if (typeof window.ethereum !== 'undefined') {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const account = accounts[0];
-            setAccount(account);
-        }
+      if (typeof window.ethereum !== 'undefined') {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        setAccount(account);
+      }
     };
+
 
     const connectContract = async () => {
-        try {
-            const web3 = new Web3(window.ethereum);
-            const contract = new web3.eth.Contract(ABI, Address);
-            setContract(contract);
-        } catch (error) {
-            console.log('Failed to connect to the contract:', error);
-        }
+      console.log("aaa", Address);
+      const web3 = new Web3(window.ethereum);
+      const contract = new web3.eth.Contract(ABI, Address);
+      setContract(contract);
     };
-    var n1 = 0;
-    var n2 = 0;
-    var n3 = 0;
-    var n4 = 0;
-    const ac1 = async () => {
-        document.getElementById("acc").innerHTML = "Accepted";
-        if (n1 == 0) {
-            await window.contract.methods.resreq(["ADST1", "ADST2", "1"]).send({ from: account });
-            n1++;
-        }
 
+    const fetchData = async () => {
+      const web3 = new Web3(window.ethereum);
+      const contract = new web3.eth.Contract(ABI, Address);
+      const data = await contract.methods.tt1().call();
+      setData1(data);
+      setDataFetched(true);
+    };
+
+    connectMetamask();
+    connectContract();
+    fetchData();
+  }, []);
+
+  // const handleSelection = (index) => {
+  //   const checkbox = document.getElementById(`flexCheckIndeterminate${index}`);
+  //   if (checkbox.checked) {
+
+
+  //     const updatedData1 = [...data1];
+  //     updatedData1[index] = [...updatedData1[index]];
+  //     updatedData1[index][4] = location.state.id;
+  //     updatedData1[index].itemName=updatedData1[index][0];
+  //     updatedData1[index].quantity=updatedData1[index][1];
+  //     updatedData1[index].category=updatedData1[index][2];
+  //     updatedData1[index].request_number=updatedData1[index][3];
+  //     updatedData1[index].accepted_by = location.state.id;
+  //     setData1(updatedData1);
+  //     console.log("uuu  ",updatedData1);
+  //     setSelectedElements((prevSelected) => [...prevSelected, updatedData1[index]]);
+  //   } else {
+  //     const elementIndex = selectedElements.findIndex((elem) => elem[0] === data1[index][0]);
+  //     const sel = [...selectedElements];
+  //     sel.splice(elementIndex, 1);
+  //     setSelectedElements(sel);
+  //   }
+  //   // console.log("data11", selectedElements);
+  // };
+  const handleSelection = (index) => {
+    const checkbox = document.getElementById(`flexCheckIndeterminate${index}`);
+
+    if (checkbox.checked) {
+
+      const updatedData1 = [...data1];
+
+      updatedData1[index] = [...updatedData1[index]];
+      updatedData1[index][4] = location.state.id;
+      updatedData1[index].itemName = updatedData1[index][0];
+      updatedData1[index].quantity = updatedData1[index][1];
+      updatedData1[index].category = updatedData1[index][2];
+      updatedData1[index].request_number = updatedData1[index][3];
+      updatedData1[index].accepted_by = location.state.id;
+      setData1(updatedData1);
+      console.log("uuu  ", updatedData1);
+      setSelectedElements((prevSelected) => [...prevSelected, [...updatedData1[index],index]]);
+    } else {
+      const elementIndex = selectedElements.findIndex((elem) => elem[0] === data1[index][0]);
+      const sel = [...selectedElements];
+      sel.splice(elementIndex, 1);
+      setSelectedElements(sel);
+      const updatedData1 = [...data1];
+      updatedData1[index] = [...updatedData1[index]];
+      updatedData1[index][4] = "pending";
+      updatedData1[index].itemName = updatedData1[index][0];
+      updatedData1[index].quantity = updatedData1[index][1];
+      updatedData1[index].category = updatedData1[index][2];
+      updatedData1[index].request_number = updatedData1[index][3];
+      updatedData1[index].accepted_by = "pending";
+      setData1(updatedData1);
+      // console.log("uuu  ",updatedData1);
     }
-    const ac2 = async () => {
-        document.getElementById("acc").innerHTML = "Accepted";
+    
+    // console.log("data11", selectedElements);
+  };
+  const handleSelection1 = (index) => {
+    const checkbox = document.getElementById(`flexCheckIndeterminate${index}`);
 
-        if (n2 == 0) {
-            await window.contract.methods.resreq(["ADST1", "ADST3", "1"]).send({ from: account });
-            n2++;
-        }
+   
+    console.log("ooooooooooo  ",selectedElements);
+    const elementIndex = selectedElements.findIndex((elem) => elem[0] === data1[index][0]);
+    const sel = [...selectedElements];
+    sel.splice(elementIndex, 1);
+    setSelectedElements(sel);
+    const updatedData1 = [...data1];
+    updatedData1[index] = [...updatedData1[index]];
+    updatedData1[index][4] = "pending";
+    updatedData1[index].itemName = updatedData1[index][0];
+    updatedData1[index].quantity = updatedData1[index][1];
+    updatedData1[index].category = updatedData1[index][2];
+    updatedData1[index].request_number = updatedData1[index][3];
+    updatedData1[index].accepted_by = "pending";
+    setData1(updatedData1);
 
+    
+    console.log("ksldflskn", data1);
+  };
+
+
+  console.log('Selected Elements:', selectedElements);
+  console.log('Data1:', data1);
+
+
+
+
+
+
+
+  const handleAccept = async () => {
+    if (account && contract && selectedElements.length > 0 && nz === 0) {
+      await contract.methods.save2(selectedElements).send({ from: account });
+      await contract.methods.save11(data1).send({ from: account });
+      setNz(1);
     }
-    const re1 = async () => {
+  };
 
-        if (n3 == 0) {
 
-            await window.contract.methods.resreq(["ADST1", "ADST2", "0"]).send({ from: account });
-            n3++;
-        }
-
-    }
-    const re2 = async () => {
-
-        if (n4 == 0) {
-
-            await window.contract.methods.resreq(["ADST1", "ADST3", "0"]).send({ from: account });
-            n4++;
-        }
-
-    }
-    const ad = async () => {
-        let r = 0;
-        let r1 = 0;
-
-        let st = "";
-        let re = "";
-        window.web3 = await new Web3(window.ethereum);
-        window.contract = await new window.web3.eth.Contract(ABI, Address);
-        const data = await window.contract.methods.retdgst1().call();
-        console.log(data);
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].category == "ADST2") {
-                st += `
-                <tr>
-                
-                  <td>${data[i].itemName}</td>
-                <td>${data[i].quantity}</td>
-                <td>${data[i].category}</td>
-            </tr>`;
-
-            }
-            if (data[i].category == "ADST3") {
-                re += `
-                <tr>
-                
-                  <td>${data[i].itemName}</td>
-                <td>${data[i].quantity}</td>
-                <td>${data[i].category}</td>
-            </tr>`;
-
-            }
-            r++;
-            r1++;
-
-        }
-        document.getElementById("1").innerHTML += st;
-        document.getElementById("2").innerHTML += re;
-
-    }
-    return (
-        <div className='container'>
-            <br></br>
-             <div className="col">
-            <div>
-                <h1 className="text-start">ADST 2:</h1>
-                <table className="table">
-                    <thead>
-                        <tr>
-
-                            <th scope="col">item name</th>
-                            <th scope="col">quantity</th>
-                            <th scope="col">unit</th>
-                        </tr>
-                    </thead>
-                    <tbody id="1">
-
-                    </tbody>
-                </table>
-                <button type="button" className="btn btn-success" id="acc" onClick={()=>ac1()}>ACCEPT</button>
-                <button type="button" className="btn btn-danger" onClick={()=>re1()}>REJECT</button>
+  return (
+    <div className="AdstRequests">
+      <Navbaradst1 />
+      <div className="bg-image">
+        <div className="container text-center">
+          <div className="row">
+            <div className="col"></div>
+            <div className="col-15">
+              <br />
+              <br />
+              <br />
+              <br />
+              <h1>REQUESTS:</h1>
+              <p id="accountArea">
+                Connection Status: {account ? `Connected to Metamask (${account})` : 'NOT CONNECTED to Metamask'}
+              </p>
+              <p id="contractArea">
+                Connection Status: {contract ? 'Connected to Smart Contract' : 'NOT CONNECTED to Smart Contract'}
+              </p>
             </div>
-            <div>
-          <br></br>
-          <br></br>
-          <h1 className="text-start">ADST 3:</h1>
-          <table className="table">
-            <thead>
-              <tr>
-
-                <th scope="col">item name</th>
-                <th scope="col">quantity</th>
-                <th scope="col">unit</th>
-              </tr>
-            </thead>
-            <tbody id="2">
-
-            </tbody>
-          </table>
-          <button type="button" className="btn btn-success" onClick={()=>ac2()}>ACCEPT</button>
-          <button type="button" className="btn btn-danger" onClick={()=>re2()}>REJECT</button>
-          <br></br>
-          <br></br>
+            <div className="col"></div>
           </div>
-        </div>
-        </div>
-    );
 
-}
-export default Adstreq1;
+          {dataFetched && data1.length > 0 ? (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">Item Name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Unit name</th>
+                  <th scope="col">Request no.</th>
+                  <th scope="col">Accept</th>
+                  <th scope="col">transaction</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data1
+                  .map((item, index) => ({ item, index }))
+                  .filter(({ item }) => item[4] === "pending" && item[2] !== location.state.id)
+                  .map(({ item, index }) => (
+                    <tr key={index}>
+                      <td>{item[0]}</td>
+                      <td>{item[1]}</td>
+                      <td>{item[2]}</td>
+                      <td>{item[3]}</td>
+                      <td>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            value=""
+                            id={`flexCheckIndeterminate${index}`}
+                            onChange={() => handleSelection(index)}
+                          />
+                          <label className="form-check-label" htmlFor={`flexCheckIndeterminate${index}`}>
+                            checkbox
+                          </label>
+                        </div>
+                      </td>
+                      <td>
+                        <button className="btn btn-primary mb-3">transaction</button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>Loading data...</p>
+          )}
+          <br />
+          <br />
+          <br />
+          {selectedElements.length > 0 && (
+            <>
+              <h2>Selected Elements:</h2>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Unit name</th>
+                    <th scope="col">Request no.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                  
+                  selectedElements.map((selectedItem, index) => (
+                    <tr key={index}>
+                      <td>{selectedItem[0]}</td>
+                      <td>{selectedItem[1]}</td>
+                      <td>{selectedItem[2]}</td>
+                      <td>{selectedItem[3]}</td>
+                      <td>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            value=""
+                            defaultChecked={true}
+                            id={`flexCheckIndeterminate${selectedItem[3]}`}
+                            onChange={() => handleSelection1(selectedItem[3])}
+                          />
+                          <label className="form-check-label"  htmlFor={`flexCheckIndeterminate${selectedItem[3]}`}>
+                            checkbox
+                          </label>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+          <div className="col">
+            <button type="button" className="btn btn-success mb-3" onClick={handleAccept}>
+              ACCEPT
+            </button>
+          </div>
+          <br />
+          <br />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdstRequests;

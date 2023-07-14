@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/navbar';
+import Navbaradst1 from './components/navbaradst1';
 import {ABI,Address} from './aa';
 import { useLocation } from 'react-router-dom';
 
@@ -21,7 +22,7 @@ const Adst1 = () => {
     // Initialize the variable if it's NaN
     count = 0;
   }
-  console.log(count);
+  console.log("countttt ",count);
   
 
 
@@ -54,6 +55,7 @@ const Adst1 = () => {
       try {
         console.log(data);
         await contract.methods.save1(data).send({ from: account });
+        setTransactionDetails();
         setN1(1);
       } catch (error) {
         console.log('Error while sending the request:', error);
@@ -62,6 +64,40 @@ const Adst1 = () => {
       alert('You cannot add now');
     }
   };
+  async function setTransactionDetails(){
+    const id = await contract.methods.tt1().call();
+    // let id=await contextUser.contract.methods.tt1().call();
+    const web3=new Web3(window.ethereum);
+
+       const lastBlockNumber = await web3.eth.getBlockNumber();
+       console.log('Last block number: ', lastBlockNumber);
+
+       let block = await web3.eth.getBlock(lastBlockNumber);
+
+
+
+       const lastTransaction = block.transactions[block.transactions.length - 1];
+       console.log('Last transaction hash: ', lastTransaction);
+       console.log(location.state.id,"l")
+       let details={
+         txnhash:lastTransaction,
+         requestId:parseInt(count),
+         mailId:location.state.id,
+         purpose:"create and send Request to DDST"
+       }
+       
+       const response=await fetch("http://localhost:8000/TransactionPost",{
+         method:"post",
+         headers:{
+           "Content-type":"application/json",
+         },
+         body:JSON.stringify(details)
+       });
+       
+       
+
+
+ }
 
   const handleAddClick = () => {
     setI(prevI => prevI + 1);
@@ -75,7 +111,7 @@ const Adst1 = () => {
         const quantity = document.getElementById(`${j}1`).value;
         const category = location.state.id;
         const request_number=count;
-        const accepted_by="sent_to_ddst";
+        const accepted_by="pending";
         // const a1=null;
         // const a2=null;
         const newItem = { itemName, quantity, category,request_number,accepted_by};
@@ -101,7 +137,7 @@ const Adst1 = () => {
 
   return (
     <div>
-      
+      <Navbaradst1/>
      
       <div className="bg-image">
         <div className="container mt-5 text-center">

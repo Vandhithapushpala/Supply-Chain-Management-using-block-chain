@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useLocation } from 'react-router-dom';
-
 const Navbar = () => {
   // const location = useLocation();
   // console.log("hhhh  ",location.state.id);
@@ -26,11 +25,10 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/logout">
-                Logout
-              </Link>
-            </li>
+            
+            
+            
+            
           </ul>
         </div>
       </div>

@@ -127,6 +127,46 @@ export const ABI=[
 				"type": "tuple[]"
 			}
 		],
+		"name": "save11",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "itemName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "quantity",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "category",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "request_number",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "accepted_by",
+						"type": "string"
+					}
+				],
+				"internalType": "struct key_val.KeyValuePair[]",
+				"name": "a",
+				"type": "tuple[]"
+			}
+		],
 		"name": "save2",
 		"outputs": [],
 		"stateMutability": "nonpayable",
@@ -1249,4 +1289,4 @@ export const ABI=[
 		"type": "function"
 	}
 ];
-export const Address="0x1E5D4e790c792621cF71ed946b396B383f375cE9";
+export const Address="0x42eB3e2541CfF1C6Ea3Ffe1Fa79eAB176bC03bb9";

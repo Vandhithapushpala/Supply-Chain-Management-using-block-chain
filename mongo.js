@@ -22,7 +22,30 @@ const newSchema=new mongoose.Schema({
         required:true
     }
 })
+const anotherSchema=new mongoose.Schema({
+    mailId:{
+        type:String,
+        required:true
+    },
+    txnhash:{
+        type:String,
+        required:true
+    },
+    requestId:{
+        type:String,
+        required:true
+    },
+    purpose:{
+        type:String,
+        required:true
+    },
+    
+})
+const collection = mongoose.model("withroles",newSchema)
+const collection1 = mongoose.model("transactions",anotherSchema)
 
-const collection = mongoose.model("withRole",newSchema)
-
-module.exports=collection
+module.exports={
+    collection:collection,
+    collection1:collection1
+}
+// module.exports=collection1

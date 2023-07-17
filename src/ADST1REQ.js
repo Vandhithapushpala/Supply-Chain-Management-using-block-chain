@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AdstRequests = () => {
   const [account, setAccount] = useState(null);
+  const [c, setc] = useState(0);
   const [contract, setContract] = useState(null);
   const [data1, setData1] = useState([]);
   const [selectedElements, setSelectedElements] = useState([]);
@@ -40,6 +41,7 @@ const AdstRequests = () => {
       setData1(data);
       setDataFetched(true);
     };
+    // let c1=0;
 
     connectMetamask();
     connectContract();
@@ -107,23 +109,25 @@ const AdstRequests = () => {
     // console.log("data11", selectedElements);
   };
   const handleSelection1 = (index) => {
-    const checkbox = document.getElementById(`flexCheckIndeterminate${index}`);
+    const checkbox = document.getElementById(`flexCheckIndeterminate1${index}`);
 
    
-    console.log("ooooooooooo  ",selectedElements);
-    const elementIndex = selectedElements.findIndex((elem) => elem[0] === data1[index][0]);
-    const sel = [...selectedElements];
-    sel.splice(elementIndex, 1);
-    setSelectedElements(sel);
-    const updatedData1 = [...data1];
-    updatedData1[index] = [...updatedData1[index]];
-    updatedData1[index][4] = "pending";
-    updatedData1[index].itemName = updatedData1[index][0];
-    updatedData1[index].quantity = updatedData1[index][1];
-    updatedData1[index].category = updatedData1[index][2];
-    updatedData1[index].request_number = updatedData1[index][3];
-    updatedData1[index].accepted_by = "pending";
-    setData1(updatedData1);
+   
+      const elementIndex = selectedElements.findIndex((elem) => elem[0] === data1[index][0]);
+      const sel = [...selectedElements];
+      sel.splice(elementIndex, 1);
+      setSelectedElements(sel);
+      const updatedData1 = [...data1];
+      updatedData1[index] = [...updatedData1[index]];
+      updatedData1[index][4] = "pending";
+      updatedData1[index].itemName = updatedData1[index][0];
+      updatedData1[index].quantity = updatedData1[index][1];
+      updatedData1[index].category = updatedData1[index][2];
+      updatedData1[index].request_number = updatedData1[index][3];
+      updatedData1[index].accepted_by = "pending";
+      setData1(updatedData1);
+      console.log("uuuzzzzzzzzz  ",updatedData1);
+    
 
     
     console.log("ksldflskn", data1);
@@ -141,10 +145,11 @@ const AdstRequests = () => {
 
   const handleAccept = async () => {
     if (account && contract && selectedElements.length > 0 && nz === 0) {
-      await contract.methods.save2(selectedElements).send({ from: account });
+      // await contract.methods.save2(selectedElements).send({ from: account });
       await contract.methods.save11(data1).send({ from: account });
       setNz(1);
     }
+    // var c1=0;
   };
 
 
@@ -158,8 +163,7 @@ const AdstRequests = () => {
             <div className="col-15">
               <br />
               <br />
-              <br />
-              <br />
+              
               <h1>REQUESTS:</h1>
               <p id="accountArea">
                 Connection Status: {account ? `Connected to Metamask (${account})` : 'NOT CONNECTED to Metamask'}
@@ -175,12 +179,13 @@ const AdstRequests = () => {
             <table className="table">
               <thead>
                 <tr>
+                <th scope="col">Accept</th>
                   <th scope="col">Item Name</th>
                   <th scope="col">Quantity</th>
                   <th scope="col">Unit name</th>
                   <th scope="col">Request no.</th>
-                  <th scope="col">Accept</th>
-                  <th scope="col">transaction</th>
+                  
+                  {/* <th scope="col">transaction</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -189,10 +194,8 @@ const AdstRequests = () => {
                   .filter(({ item }) => item[4] === "pending" && item[2] !== location.state.id)
                   .map(({ item, index }) => (
                     <tr key={index}>
-                      <td>{item[0]}</td>
-                      <td>{item[1]}</td>
-                      <td>{item[2]}</td>
-                      <td>{item[3]}</td>
+                      {/* <td>{}</td> */}
+                      
                       <td>
                         <div className="form-check">
                           <input
@@ -203,13 +206,18 @@ const AdstRequests = () => {
                             onChange={() => handleSelection(index)}
                           />
                           <label className="form-check-label" htmlFor={`flexCheckIndeterminate${index}`}>
-                            checkbox
+                            Accept 
                           </label>
                         </div>
                       </td>
-                      <td>
+                      <td>{item[0]}</td>
+                      <td>{item[1]}</td>
+                      <td>{item[2]}</td>
+                      <td>{item[3]}</td>
+                      
+                      {/* <td>
                         <button className="btn btn-primary mb-3">transaction</button>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
               </tbody>
@@ -226,6 +234,7 @@ const AdstRequests = () => {
               <table className="table">
                 <thead>
                   <tr>
+                  <th scope="col">ACCEPT</th>
                     <th scope="col">Item Name</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Unit name</th>
@@ -237,25 +246,28 @@ const AdstRequests = () => {
                   
                   selectedElements.map((selectedItem, index) => (
                     <tr key={index}>
-                      <td>{selectedItem[0]}</td>
-                      <td>{selectedItem[1]}</td>
-                      <td>{selectedItem[2]}</td>
-                      <td>{selectedItem[3]}</td>
                       <td>
                         <div className="form-check">
+                          <label className="form-check-label"  htmlFor={`flexCheckIndeterminate1${selectedItem[5]}`}>
+                            Accepted
+                          </label>
                           <input
                             className="form-check-input"
                             type="checkbox"
                             value=""
-                            defaultChecked={true}
-                            id={`flexCheckIndeterminate${selectedItem[3]}`}
-                            onChange={() => handleSelection1(selectedItem[3])}
+                            checked={!selectedElements.some((elem) => elem[5] === index)}
+                            // defaultChecked={true}
+                            id={`flexCheckIndeterminate1${selectedItem[5]}`}
+                            onChange={() => handleSelection1(selectedItem[5])}
                           />
-                          <label className="form-check-label"  htmlFor={`flexCheckIndeterminate${selectedItem[3]}`}>
-                            checkbox
-                          </label>
+                          
                         </div>
                       </td>
+                      <td>{selectedItem[0]}</td>
+                      <td>{selectedItem[1]}</td>
+                      <td>{selectedItem[2]}</td>
+                      <td>{selectedItem[3]}</td>
+                      
                     </tr>
                   ))}
                 </tbody>

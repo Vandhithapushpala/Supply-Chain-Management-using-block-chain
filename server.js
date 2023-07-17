@@ -2,6 +2,7 @@ const express = require("express")
 const {collection, collection1} = require("./mongo")
 // const collection1 =require("./mongo")
 const cors = require("cors")
+const { findAllByPlaceholderText } = require("@testing-library/react")
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -43,6 +44,7 @@ app.post("/",async(req,res)=>{
     }
 
 })
+
 app.post("/TransactionPost",async (req,res)=>{
     // const{txnhash,requestId,mailId,purpose}=req.body
 
@@ -60,7 +62,16 @@ app.post("/TransactionPost",async (req,res)=>{
     
  })
 
+ app.post("/Transactions",async (req,res)=>{
+    let E=req.body;
+    console.log(E)
+    let get=await collection1.find({mailId:E[0],requestId:E[1]});
+    console.log("getttt  ",get)
+    res.send(get)
+    
 
+
+  })
 
 app.post("/signup",async(req,res)=>{
     const{email,password,role}=req.body

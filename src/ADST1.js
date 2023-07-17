@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/navbar';
 import Navbaradst1 from './components/navbaradst1';
-import {ABI,Address} from './aa';
+import { ABI, Address } from './aa';
 import { useLocation } from 'react-router-dom';
 
 
@@ -13,7 +13,8 @@ const Adst1 = () => {
   const [data, setData] = useState([]);
   const [n1, setN1] = useState(0);
   const [i, setI] = useState(0);
-  const location=useLocation();
+  const [items, setItems] = useState([]);
+  const location = useLocation();
   // Retrieve the value from LocalStorage
   let count = localStorage.getItem('count');
 
@@ -22,8 +23,8 @@ const Adst1 = () => {
     // Initialize the variable if it's NaN
     count = 0;
   }
-  console.log("countttt ",count);
-  
+  console.log("countttt ", count);
+
 
 
 
@@ -39,22 +40,25 @@ const Adst1 = () => {
       setAccount(account);
     }
   };
- 
+
 
   const connectContract = async () => {
-    console.log("aaa",Address);
-      const web3 =  new Web3(window.ethereum);
-      const contract = new web3.eth.Contract(ABI, Address);
-      setContract(contract);
+    console.log("aaa", Address);
+    const web3 = new Web3(window.ethereum);
+    const contract = new web3.eth.Contract(ABI, Address);
+    setContract(contract);
   };
 
 
   const changeWord = async () => {
-    console.log("n11111",n1);
+    console.log("n11111", n1);
     if (n1 === 0) {
       try {
-        console.log(data);
-        await contract.methods.save1(data).send({ from: account });
+        console.log(items);
+        await contract.methods.save1(items).send({ from: account });
+        count++;
+        localStorage.setItem('count', count);
+        console.log("jjjjjjjjjjjjjjj ",count);
         setTransactionDetails();
         setN1(1);
       } catch (error) {
@@ -63,45 +67,47 @@ const Adst1 = () => {
     } else {
       alert('You cannot add now');
     }
+    
   };
-  async function setTransactionDetails(){
+  async function setTransactionDetails() {
     const id = await contract.methods.tt1().call();
     // let id=await contextUser.contract.methods.tt1().call();
-    const web3=new Web3(window.ethereum);
+    const web3 = new Web3(window.ethereum);
 
-       const lastBlockNumber = await web3.eth.getBlockNumber();
-       console.log('Last block number: ', lastBlockNumber);
+    const lastBlockNumber = await web3.eth.getBlockNumber();
+    console.log('Last block number: ', lastBlockNumber);
 
-       let block = await web3.eth.getBlock(lastBlockNumber);
-
-
-
-       const lastTransaction = block.transactions[block.transactions.length - 1];
-       console.log('Last transaction hash: ', lastTransaction);
-       console.log(location.state.id,"l")
-       let details={
-         txnhash:lastTransaction,
-         requestId:parseInt(count),
-         mailId:location.state.id,
-         purpose:"create and send Request to DDST"
-       }
-       
-       const response=await fetch("http://localhost:8000/TransactionPost",{
-         method:"post",
-         headers:{
-           "Content-type":"application/json",
-         },
-         body:JSON.stringify(details)
-       });
-       
-       
+    let block = await web3.eth.getBlock(lastBlockNumber);
 
 
- }
 
-  const handleAddClick = () => {
-    setI(prevI => prevI + 1);
-  };
+    const lastTransaction = block.transactions[block.transactions.length - 1];
+    console.log('Last transaction hash: ', lastTransaction);
+    console.log(location.state.id, "l")
+    let details = {
+      txnhash: lastTransaction,
+      requestId: parseInt(count),
+      mailId: location.state.id,
+      purpose: "create and send Request to DDST"
+    }
+
+    const response = await fetch("http://localhost:8000/TransactionPost", {
+      method: "post",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(details)
+    });
+
+
+
+
+  }
+
+  // const handleAddClick = () => {
+  //   setI(prevI => prevI + 1);
+  //   setItems([...items, { itemName: "", quantity: "" }]);
+  // };
 
   const handleConfirmClick = () => {
     if (data.length === 0 && n1 === 0) {
@@ -110,35 +116,50 @@ const Adst1 = () => {
         const itemName = document.getElementById(`${j}`).value;
         const quantity = document.getElementById(`${j}1`).value;
         const category = location.state.id;
-        const request_number=count;
-        const accepted_by="pending";
+        const request_number = count;
+        const accepted_by = "pending";
         // const a1=null;
         // const a2=null;
-        const newItem = { itemName, quantity, category,request_number,accepted_by};
+        const newItem = { itemName, quantity, category, request_number, accepted_by };
         newData.push(newItem);
       }
-      console.log("rrrrrrrrrrrr  ",newData);
+      console.log("rrrrrrrrrrrr  ", newData);
       setData(newData);
       alert('If you are sure, then click on send quote');
     } else {
       alert('You cannot add now');
     }
-    
-    
+
+
     // Increase the variable
     count++;
-    
+
     // Store the updated value back into LocalStorage
     localStorage.setItem('count', count);
-    
+
     // Use the updated value
     console.log('Count:', count);
   };
+  const handleAddClick = () => {
+    setItems([...items, { itemName: "", quantity: "" ,category:location.state.id,request_number:count,accepted_by:"pending"}]);
+    console.log("jfnrv", items);
+  };
+  const handleInputChange = (event, index) => {
+    const { id, value } = event.target;
+    const updatedItems = [...items];
+    updatedItems[index][id] = value;
+    setItems(updatedItems);
+  };
+  const handleRemoveItem = (e) => {
+    const temp = [...items];
+    temp.splice(e, 1);
+    setItems(temp);
+  }
 
   return (
     <div>
-      <Navbaradst1/>
-     
+      <Navbaradst1 />
+
       <div className="bg-image">
         <div className="container mt-5 text-center">
           {/* Rest of the content */}
@@ -147,22 +168,42 @@ const Adst1 = () => {
               ADD ITEMS
             </button>
             <div id="textboxDiv">
-              {Array.from({ length: i }, (_, index) => (
-                <div className="wrapper" key={index}>
-                  <span className="inline">
-                    <input type="text" placeholder="Item name" id={index} />
-                    <input type="number" placeholder="Quantity" id={`${index}1`} />
-                  </span>
-                </div>
+              {items.map((item, index) => (
+                <span className="inline" key={index}>
+                  <input
+                    type="text"
+                    placeholder="Item name"
+                    id="itemName"
+                    value={item.itemName}
+                    onChange={(event) => handleInputChange(event, index)}
+
+
+                  />
+                  <input
+                    type="number"
+                    placeholder="Quantity"
+                    id="quantity"
+                    value={item.quantity}
+                    onChange={(event) => handleInputChange(event, index)}
+
+                  />
+                  <button type="button" className="btn btn-primary" onClick={handleAddClick}>
+                    +
+                  </button>
+                  <button type="button" className="btn btn-danger" onClick={() => { handleRemoveItem(index) }}>
+                    -
+                  </button>
+                  <br></br>
+                </span>
               ))}
             </div>
           </div>
           <div className="container-fluid">
             <br />
             <br />
-            <button type="button" className="btn btn-primary" onClick={handleConfirmClick}>
+            {/* <button type="button" className="btn btn-primary" onClick={}>
               Confirm
-            </button>
+            </button> */}
             <br />
             <button type="button" className="btn btn-success hi" onClick={changeWord}>
               SEND REQUEST

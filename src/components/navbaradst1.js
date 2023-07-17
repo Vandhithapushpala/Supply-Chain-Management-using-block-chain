@@ -8,11 +8,15 @@ const Navbaradst1 = () => {
   const navigate = useNavigate();
   // console.log("navvv  ",location.state.role)
   // if(location.state.id=="")
+  const handleLogout = () => {
+    window.history.replaceState(null, '', '/');
+    navigate('/');
+  };
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-primary">
-      <div className="container">
+      <div className="container ">
         <button
-          className="navbar-brand btn btn-link"
+          className="navbar-brand btn btn-link text-white"
           onClick={() => navigate('/ADST1', { state: { id: location.state.id } })}
         >
           {location.state.id}
@@ -31,14 +35,26 @@ const Navbaradst1 = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <button className="nav-link btn btn-link" onClick={() => navigate('/ADST1REQ',{ state: { id: location.state.id } })}>
+              <button className="nav-link btn btn-link text-white" onClick={() => navigate('/ADST1REQ',{ state: { id: location.state.id } })}>
                 Requests from other units
               </button>
             </li>
             <li className="nav-item">
-              <button className="nav-link btn btn-link" onClick={() => navigate('/ADST1ACC',{ state: { id: location.state.id } })}>
+              <button className="nav-link btn btn-link text-white" onClick={() => navigate('/ADST1ACC',{ state: { id: location.state.id } })}>
                 REQUESTS PLACED
               </button>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link btn btn-link text-white" onClick={() => navigate('/ADST1ACCEPTED',{ state: { id: location.state.id } })}>
+                REQUESTS ACCEPTED
+              </button>
+            </li>
+            <li className="nav-item ">
+              
+              <button className="nav-link navbar-link text-white" title='User-info' onClick={handleLogout}>
+                            Logout
+                        </button>
+              
             </li>
           </ul>
         </div>

@@ -80,6 +80,7 @@ import { useState } from 'react';
 import AdstAcceptedRequests from './ADST1ACC';
 import Asc from './ASC';
 import SignUp from './Signup';
+import AdstAccepted from './ADST1ACCEPTED';
 // import { useLocation } from 'react-router-dom';
 
 function App() {
@@ -96,6 +97,7 @@ function App() {
           <Route path="/DDST1" element={<Ddst1/>} />
           <Route path="/signup" element={<SignUp/>} />
           <Route path="/ASC" element={<Asc/>} />
+          <Route path="/ADST1ACCEPTED" element={<AdstAccepted/>} />
           
         </Routes>
       </Router>

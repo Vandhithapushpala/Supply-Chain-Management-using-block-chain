@@ -10,6 +10,7 @@ const Ddst1 = () => {
     const [contract, setContract] = useState(null);
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [nz, setNz] = useState(0);
     const location=useLocation();
     useEffect(() => {
         const connectMetamask = async () => {
@@ -41,6 +42,11 @@ const Ddst1 = () => {
     const rat = async () => {
       var button = document.getElementById('bu1');
       button.disabled = true;
+      if (account && contract && nz === 0) {
+        // await contract.methods.save2(selectedElements).send({ from: account });
+        await contract.methods.save3([]).send({ from: account });
+        setNz(1);
+      }
       window.alert("sent to ADST");
     };
     var arey=[];
@@ -58,6 +64,11 @@ const Ddst1 = () => {
       }
       console.log("seeee ", arey);
       window.alert("sent to ASC")
+      if (account && contract ) {
+        // await contract.methods.save2(selectedElements).send({ from: account });
+        await contract.methods.save3([]).send({ from: account });
+       
+      }
 
 
 
@@ -86,7 +97,7 @@ const Ddst1 = () => {
                     {isLoading ? (
                         <p>Loading data...</p>
                     ) : (
-                        <table className="table">
+                        <table className="table table-dark table-hover table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">Item Name</th>

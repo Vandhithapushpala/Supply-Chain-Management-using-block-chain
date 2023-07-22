@@ -56,12 +56,15 @@ function Login() {
             <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
                 <div className="card text-center">
                     <div className="card-header">
-                        <h1>login</h1>
+                        <h1>Login</h1>
                     </div>
                     <div className="card-body">
                         {/* <h1 className="card-title">Login</h1> */}
                         <form onSubmit={submit}>
                             <div className="form-group">
+                            <div className="text-start">
+                            <label>Enter UserName:</label>
+                            </div>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -69,8 +72,13 @@ function Login() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="UserID"
                                 />
+                                
                             </div>
                             <div className="form-group mt-3 ">
+                                <div className="text-start">
+                                <label >Enter Password:</label>
+                                </div>
+                            
                                 <input
                                     type="password"
                                     className="form-control"
@@ -84,13 +92,7 @@ function Login() {
                             </button>
                             {/* <p className="text-danger">{error}</p> */}
                         </form>
-                        <div className="mt-3">
-                            <p>OR</p>
-                            <Link to="/signup">Signup Page</Link>
-                            {/* <Link to="/Authenticate/Signup" className="btn btn-secondary">
-              Signup Page
-            </Link> */}
-                        </div>
+                        
                     </div>
 
                 </div>

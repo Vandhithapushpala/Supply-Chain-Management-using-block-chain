@@ -88,7 +88,7 @@ const AdstRequests = () => {
       updatedData1[index].accepted_by = location.state.id;
       setData1(updatedData1);
       console.log("uuu  ", updatedData1);
-      setSelectedElements((prevSelected) => [...prevSelected, [...updatedData1[index],index]]);
+      setSelectedElements((prevSelected) => [...prevSelected, [...updatedData1[index], index]]);
     } else {
       const elementIndex = selectedElements.findIndex((elem) => elem[0] === data1[index][0]);
       const sel = [...selectedElements];
@@ -105,31 +105,31 @@ const AdstRequests = () => {
       setData1(updatedData1);
       // console.log("uuu  ",updatedData1);
     }
-    
+
     // console.log("data11", selectedElements);
   };
   const handleSelection1 = (index) => {
     const checkbox = document.getElementById(`flexCheckIndeterminate1${index}`);
 
-   
-   
-      const elementIndex = selectedElements.findIndex((elem) => elem[0] === data1[index][0]);
-      const sel = [...selectedElements];
-      sel.splice(elementIndex, 1);
-      setSelectedElements(sel);
-      const updatedData1 = [...data1];
-      updatedData1[index] = [...updatedData1[index]];
-      updatedData1[index][4] = "pending";
-      updatedData1[index].itemName = updatedData1[index][0];
-      updatedData1[index].quantity = updatedData1[index][1];
-      updatedData1[index].category = updatedData1[index][2];
-      updatedData1[index].request_number = updatedData1[index][3];
-      updatedData1[index].accepted_by = "pending";
-      setData1(updatedData1);
-      console.log("uuuzzzzzzzzz  ",updatedData1);
-    
 
-    
+
+    const elementIndex = selectedElements.findIndex((elem) => elem[0] === data1[index][0]);
+    const sel = [...selectedElements];
+    sel.splice(elementIndex, 1);
+    setSelectedElements(sel);
+    const updatedData1 = [...data1];
+    updatedData1[index] = [...updatedData1[index]];
+    updatedData1[index][4] = "pending";
+    updatedData1[index].itemName = updatedData1[index][0];
+    updatedData1[index].quantity = updatedData1[index][1];
+    updatedData1[index].category = updatedData1[index][2];
+    updatedData1[index].request_number = updatedData1[index][3];
+    updatedData1[index].accepted_by = "pending";
+    setData1(updatedData1);
+    console.log("uuuzzzzzzzzz  ", updatedData1);
+
+
+
     console.log("ksldflskn", data1);
   };
 
@@ -163,7 +163,7 @@ const AdstRequests = () => {
             <div className="col-15">
               <br />
               <br />
-              
+
               <h1>REQUESTS:</h1>
               <p id="accountArea">
                 Connection Status: {account ? `Connected to Metamask (${account})` : 'NOT CONNECTED to Metamask'}
@@ -176,26 +176,26 @@ const AdstRequests = () => {
           </div>
 
           {dataFetched && data1.length > 0 ? (
-            <table className="table">
+            <table className="table table-hover table-dark table-bordered">
               <thead>
                 <tr>
-                <th scope="col">Accept</th>
+                  <th scope="col">Accept</th>
                   <th scope="col">Item Name</th>
                   <th scope="col">Quantity</th>
                   <th scope="col">Unit name</th>
                   <th scope="col">Request no.</th>
-                  
+
                   {/* <th scope="col">transaction</th> */}
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="table-group-divider">
                 {data1
                   .map((item, index) => ({ item, index }))
                   .filter(({ item }) => item[4] === "pending" && item[2] !== location.state.id)
                   .map(({ item, index }) => (
                     <tr key={index}>
                       {/* <td>{}</td> */}
-                      
+
                       <td>
                         <div className="form-check">
                           <input
@@ -206,7 +206,7 @@ const AdstRequests = () => {
                             onChange={() => handleSelection(index)}
                           />
                           <label className="form-check-label" htmlFor={`flexCheckIndeterminate${index}`}>
-                            Accept 
+                            Accept
                           </label>
                         </div>
                       </td>
@@ -214,7 +214,7 @@ const AdstRequests = () => {
                       <td>{item[1]}</td>
                       <td>{item[2]}</td>
                       <td>{item[3]}</td>
-                      
+
                       {/* <td>
                         <button className="btn btn-primary mb-3">transaction</button>
                       </td> */}
@@ -231,36 +231,35 @@ const AdstRequests = () => {
           {selectedElements.length > 0 && (
             <>
               <h2>Selected Elements:</h2>
-              <table className="table">
+              <table className="table table-hover table-dark table-bordered">
                 <thead>
                   <tr>
-                  <th scope="col">ACCEPT</th>
+                    <th scope="col">ACCEPT</th>
                     <th scope="col">Item Name</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Unit name</th>
                     <th scope="col">Request no.</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {
+                <tbody class="table-group-divider">
+                {
                   
                   selectedElements.map((selectedItem, index) => (
                     <tr key={index}>
                       <td>
                         <div className="form-check">
-                          <label className="form-check-label"  htmlFor={`flexCheckIndeterminate1${selectedItem[5]}`}>
-                            Accepted
-                          </label>
                           <input
                             className="form-check-input"
                             type="checkbox"
                             value=""
-                            checked={!selectedElements.some((elem) => elem[5] === index)}
+                            checked={!selectedElements.some((elem) => elem[2] === index)}
                             // defaultChecked={true}
                             id={`flexCheckIndeterminate1${selectedItem[5]}`}
                             onChange={() => handleSelection1(selectedItem[5])}
                           />
-                          
+                          <label className="form-check-label"  htmlFor={`flexCheckIndeterminate1${selectedItem[5]}`}>
+                            Accepted
+                          </label>
                         </div>
                       </td>
                       <td>{selectedItem[0]}</td>
@@ -270,6 +269,35 @@ const AdstRequests = () => {
                       
                     </tr>
                   ))}
+                  {/* {
+
+                    selectedElements.map((selectedItem, index) => (
+                      <tr key={index}>
+                        <td>
+                          <div className="form-check">
+
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              value=""
+                              checked={!selectedElements.some((elem) => elem[5] === index)}
+                              // defaultChecked={true}
+                              id={`flexCheckIndeterminate1${selectedItem[5]}`}
+                              onChange={() => handleSelection1(selectedItem[5])}
+                            />
+                            <label className="form-check-label" htmlFor={`flexCheckIndeterminate1${selectedItem[5]}`}>
+                              Accepted
+                            </label>
+
+                          </div>
+                        </td>
+                        <td>{selectedItem[0]}</td>
+                        <td>{selectedItem[1]}</td>
+                        <td>{selectedItem[2]}</td>
+                        <td>{selectedItem[3]}</td>
+
+                      </tr>
+                    ))} */}
                 </tbody>
               </table>
             </>

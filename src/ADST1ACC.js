@@ -70,7 +70,7 @@ const AdstAcceptedRequests = () => {
                     {isLoading ? (
                         <p>Loading data...</p>
                     ) : (
-                        <table className="table">
+                        <table className="table table-hover table-dark table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">Item Name</th>

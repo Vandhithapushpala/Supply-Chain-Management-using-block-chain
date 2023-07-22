@@ -58,7 +58,7 @@ const Adst1 = () => {
         await contract.methods.save1(items).send({ from: account });
         count++;
         localStorage.setItem('count', count);
-        console.log("jjjjjjjjjjjjjjj ",count);
+        console.log("jjjjjjjjjjjjjjj ", count);
         setTransactionDetails();
         setN1(1);
       } catch (error) {
@@ -67,7 +67,7 @@ const Adst1 = () => {
     } else {
       alert('You cannot add now');
     }
-    
+
   };
   async function setTransactionDetails() {
     const id = await contract.methods.tt1().call();
@@ -86,7 +86,7 @@ const Adst1 = () => {
     console.log(location.state.id, "l")
     let details = {
       txnhash: lastTransaction,
-      requestId: parseInt(count),
+      requestId: parseInt(count)-1,
       mailId: location.state.id,
       purpose: "create and send Request to DDST"
     }
@@ -141,7 +141,7 @@ const Adst1 = () => {
     console.log('Count:', count);
   };
   const handleAddClick = () => {
-    setItems([...items, { itemName: "", quantity: "" ,category:location.state.id,request_number:count,accepted_by:"pending"}]);
+    setItems([...items, { itemName: "", quantity: "", category: location.state.id, request_number: count, accepted_by: "pending" }]);
     console.log("jfnrv", items);
   };
   const handleInputChange = (event, index) => {
@@ -167,6 +167,7 @@ const Adst1 = () => {
             <button type="button" className="btn btn-primary" onClick={handleAddClick}>
               ADD ITEMS
             </button>
+
             <div id="textboxDiv">
               {items.map((item, index) => (
                 <span className="inline" key={index}>
@@ -174,11 +175,15 @@ const Adst1 = () => {
                     type="text"
                     placeholder="Item name"
                     id="itemName"
+                    list='item'
                     value={item.itemName}
                     onChange={(event) => handleInputChange(event, index)}
 
 
                   />
+
+
+
                   <input
                     type="number"
                     placeholder="Quantity"
@@ -187,34 +192,42 @@ const Adst1 = () => {
                     onChange={(event) => handleInputChange(event, index)}
 
                   />
-                  <button type="button" className="btn btn-primary" onClick={handleAddClick}>
-                    +
-                  </button>
-                  <button type="button" className="btn btn-danger" onClick={() => { handleRemoveItem(index) }}>
-                    -
-                  </button>
-                  <br></br>
-                </span>
+                  <datalist id="item">
+                    <option value="Apple"/>
+                      <option value="Banana"/>
+                        <option value="CustardApple"/>
+                          <option value="DragonFruit"/>
+                            <option value="Eggs"/>
+                            </datalist>
+
+                            <button type="button" className="btn btn-primary" onClick={handleAddClick}>
+                              +
+                            </button>
+                            <button type="button" className="btn btn-danger" onClick={() => { handleRemoveItem(index) }}>
+                              -
+                            </button>
+                            <br></br>
+                          </span>
               ))}
-            </div>
-          </div>
-          <div className="container-fluid">
-            <br />
-            <br />
-            {/* <button type="button" className="btn btn-primary" onClick={}>
+                        </div>
+                      </div>
+                      <div className="container-fluid">
+                        <br />
+                        <br />
+                        {/* <button type="button" className="btn btn-primary" onClick={}>
               Confirm
             </button> */}
-            <br />
-            <button type="button" className="btn btn-success hi" onClick={changeWord}>
-              SEND REQUEST
-            </button>
-            <br />
-            <table className="table" id="1"></table>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+                        <br />
+                        <button type="button" className="btn btn-success hi" onClick={changeWord}>
+                          SEND REQUEST
+                        </button>
+                        <br />
+                        <table className="table" id="1"></table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
 };
 
-export default Adst1;
+              export default Adst1;

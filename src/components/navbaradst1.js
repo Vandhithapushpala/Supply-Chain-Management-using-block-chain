@@ -36,7 +36,7 @@ const Navbaradst1 = () => {
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               <button className="nav-link btn btn-link text-white" onClick={() => navigate('/ADST1REQ',{ state: { id: location.state.id } })}>
-                Requests from other units
+                REQUESTS FROM OTHER UNITS
               </button>
             </li>
             <li className="nav-item">

@@ -176,7 +176,7 @@ const AdstRequests = () => {
           </div>
 
           {dataFetched && data1.length > 0 ? (
-            <table className="table">
+            <table className="table table-hover table-dark table-bordered">
               <thead>
                 <tr>
                 <th scope="col">Accept</th>
@@ -227,9 +227,10 @@ const AdstRequests = () => {
           {selectedElements.length > 0 && (
             <>
               <h2>Selected Elements:</h2>
-              <table className="table">
+              <table className="table table-hover table-dark table-bordered">
                 <thead>
                   <tr>
+                  <th scope="col">Accepted</th>
                     <th scope="col">Item Name</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Unit name</th>
@@ -241,10 +242,6 @@ const AdstRequests = () => {
                   
                   selectedElements.map((selectedItem, index) => (
                     <tr key={index}>
-                      <td>{selectedItem[0]}</td>
-                      <td>{selectedItem[1]}</td>
-                      <td>{selectedItem[2]}</td>
-                      <td>{selectedItem[3]}</td>
                       <td>
                         <div className="form-check">
                           <input
@@ -261,6 +258,11 @@ const AdstRequests = () => {
                           </label>
                         </div>
                       </td>
+                      <td>{selectedItem[0]}</td>
+                      <td>{selectedItem[1]}</td>
+                      <td>{selectedItem[2]}</td>
+                      <td>{selectedItem[3]}</td>
+                      
                     </tr>
                   ))}
                 </tbody>
@@ -270,6 +272,10 @@ const AdstRequests = () => {
           <div className="col">
             <button type="button" className="btn btn-success mb-3" onClick={handleAccept}>
               ACCEPT
+            </button>
+            <br></br>
+            <button type="button" className="btn btn-success mb-3" onClick={handleAccept}>
+              SEND TO MANUFACTURER
             </button>
           </div>
           <br />

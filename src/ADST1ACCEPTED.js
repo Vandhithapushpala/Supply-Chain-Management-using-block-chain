@@ -70,7 +70,7 @@ const AdstAccepted = () => {
                     {isLoading ? (
                         <p>Loading data...</p>
                     ) : (
-                        <table className="table">
+                        <table className="table table-dark">
                             <thead>
                                 <tr>
                                     <th scope="col">Item Name</th>
@@ -81,7 +81,7 @@ const AdstAccepted = () => {
                                     <th scope="col">Details</th>
                                 </tr>
                             </thead>
-                            <tbody id="fff2">
+                            <tbody id="fff2" class="table-group-divider">
                                 {data
                                     .filter(item => item[4] === location.state.id)
                                     .map((item, index) => (
